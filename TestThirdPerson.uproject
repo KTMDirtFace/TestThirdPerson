@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{68F89D43-4331-F09B-61DD-C49EB8243D6C}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "TestThirdPerson",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
