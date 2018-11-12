@@ -80,7 +80,7 @@ void ATestThirdPersonCharacter::SetupPlayerInputComponent(class UInputComponent*
 
 void ATestThirdPersonCharacter::StartAttacking()
 {
-
+	PlayAnimMontage(PrimaryAttack_A_Montage);
 }
 
 void ATestThirdPersonCharacter::OnResetVR()
