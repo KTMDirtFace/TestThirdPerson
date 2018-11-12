@@ -57,6 +57,8 @@ void ATestThirdPersonCharacter::SetupPlayerInputComponent(class UInputComponent*
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &ATestThirdPersonCharacter::StartAttacking);
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &ATestThirdPersonCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ATestThirdPersonCharacter::MoveRight);
 
@@ -76,6 +78,10 @@ void ATestThirdPersonCharacter::SetupPlayerInputComponent(class UInputComponent*
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ATestThirdPersonCharacter::OnResetVR);
 }
 
+void ATestThirdPersonCharacter::StartAttacking()
+{
+
+}
 
 void ATestThirdPersonCharacter::OnResetVR()
 {

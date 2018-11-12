@@ -30,6 +30,8 @@ public:
 	float BaseLookUpRate;
 
 protected:
+	// Attack
+	void StartAttacking();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
