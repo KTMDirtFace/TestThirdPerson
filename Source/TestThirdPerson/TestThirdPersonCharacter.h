@@ -29,13 +29,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	/** Primary Attack A Montage */
-	UPROPERTY(EditDefaultsOnly, Category = Attack)
-	class UAnimMontage *PrimaryAttack_A_Montage;
-
 protected:
 	// Attack
-	void StartAttacking();
+	virtual void StartAttacking();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();
