@@ -19,6 +19,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Attack)
 	class UAnimMontage *PrimaryAttack_A_Montage;
 
+	/** Collision sphere for the right hand */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Attack, meta = (AllowPrivateAccess = "true"))
+	class USphereComponent *RightHandCollisionSphere;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

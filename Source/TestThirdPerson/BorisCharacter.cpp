@@ -2,12 +2,20 @@
 
 #include "BorisCharacter.h"
 
+#include "Runtime/Engine/Classes/Components/SphereComponent.h"
+
 // Sets default values
 ABorisCharacter::ABorisCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Create a collision sphere on his right hand
+	RightHandCollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("RightHandCollisionSphere"));
+
+	//FAttachmentTransformRules AttachmentRules(EAttachmentRule::KeepRelative, true);
+	//RightHandCollisionSphere->AttachToComponent(GetMesh(), AttachmentRules, FName("hand_r"));
+	RightHandCollisionSphere->SetupAttachment(GetMesh(), FName("hand_r"));
 }
 
 // Called when the game starts or when spawned
