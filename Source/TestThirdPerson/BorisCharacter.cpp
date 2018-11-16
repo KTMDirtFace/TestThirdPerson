@@ -29,7 +29,10 @@ void ABorisCharacter::BeginPlay()
 
 void ABorisCharacter::StartAttacking()
 {
-	PlayAnimMontage(PrimaryAttack_A_Montage);
+	if (!bIsPerformingMainAttack)
+	{
+		PlayAnimMontage(PrimaryAttack_A_Montage);
+	}
 }
 
 // Called every frame
