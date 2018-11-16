@@ -35,4 +35,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Main attack swing functions
+	UFUNCTION(BlueprintCallable, Category=Attack)
+	bool IsPerformingMainAttack() { return bIsPerformingMainAttack; }
+	UFUNCTION(BlueprintCallable, Category = Attack)
+	void OnMainAttackSwingFinished();
+	UFUNCTION(BlueprintCallable, Category = Attack)
+	void OnMainAttackSwingStarted();
+
+private:
+	bool bIsPerformingMainAttack;
 };
