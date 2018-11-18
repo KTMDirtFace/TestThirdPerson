@@ -20,8 +20,11 @@ public:
 	class UAnimMontage *PrimaryAttack_A_Montage;
 
 	/** Collision sphere for the right hand */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Attack, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, Category = Attack, meta = (AllowPrivateAccess = "true"))
 	class USphereComponent *RightHandCollisionSphere;
+
+	UPROPERTY(EditDefaultsOnly, Category = FistWeapon)
+	class UClass *RightFistWeaponClass;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -44,5 +47,7 @@ public:
 	void OnMainAttackSwingStarted();
 
 private:
+	class AFistWeapon *RightFistWeapon;
+
 	bool bIsPerformingMainAttack;
 };

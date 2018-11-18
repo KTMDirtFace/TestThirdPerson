@@ -2,6 +2,7 @@
 
 #include "BorisCharacter.h"
 
+#include "FistWeapon.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 
 // Sets default values
@@ -12,9 +13,6 @@ ABorisCharacter::ABorisCharacter()
 
 	// Create a collision sphere on his right hand
 	RightHandCollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("RightHandCollisionSphere"));
-
-	//FAttachmentTransformRules AttachmentRules(EAttachmentRule::KeepRelative, true);
-	//RightHandCollisionSphere->AttachToComponent(GetMesh(), AttachmentRules, FName("hand_r"));
 	RightHandCollisionSphere->SetupAttachment(GetMesh(), FName("hand_r"));
 	RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
@@ -26,6 +24,13 @@ void ABorisCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Add a fist collision weapon to Boris's right hand.
+	RightFistWeapon = GetWorld()->SpawnActor<AFistWeapon>(RightFistWeaponClass);
+	USkeletalMeshComponent *BorisMesh = GetMesh();
+	if (BorisMesh && RightFistWeapon)
+	{
+		RightFistWeapon->AttachToComponent(BorisMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), FName("hand_r"));
+	}
 }
 
 void ABorisCharacter::StartAttacking()
@@ -53,11 +58,11 @@ void ABorisCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void ABorisCharacter::OnMainAttackSwingFinished()
 {
 	bIsPerformingMainAttack = false;
-	RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	//RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ABorisCharacter::OnMainAttackSwingStarted()
 {
 	bIsPerformingMainAttack = true;
-	RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	//RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }

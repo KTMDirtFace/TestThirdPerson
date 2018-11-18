@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "DestructableProjectile.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
@@ -28,3 +29,10 @@ void ADestructableProjectile::Tick(float DeltaTime)
 
 }
 
+void ADestructableProjectile::Destroyed()
+{
+	if (DestructionParticle)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestructionParticle, GetActorTransform());
+	}
+}
