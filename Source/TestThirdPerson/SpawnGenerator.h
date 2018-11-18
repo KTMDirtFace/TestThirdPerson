@@ -15,16 +15,16 @@ public:
 	// Sets default values for this actor's properties
 	ASpawnGenerator();
 
-	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	UPROPERTY(EditAnywhere, Category = Spawn)
 	class UClass *ActorClassToSpawn;
 	
-	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	UPROPERTY(EditAnywhere, Category = Spawn)
 	int32 MaxActiveSpawns;
 
-	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	UPROPERTY(EditAnywhere, Category = Spawn)
 	float MinTimeBetweenSpawns;
 
-	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	UPROPERTY(EditAnywhere, Category = Spawn)
 	float MaxTimeBetweenSpawns;
 protected:
 	// Called when the game starts or when spawned
