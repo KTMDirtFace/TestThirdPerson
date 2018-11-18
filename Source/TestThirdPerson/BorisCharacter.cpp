@@ -16,6 +16,7 @@ ABorisCharacter::ABorisCharacter()
 	//FAttachmentTransformRules AttachmentRules(EAttachmentRule::KeepRelative, true);
 	//RightHandCollisionSphere->AttachToComponent(GetMesh(), AttachmentRules, FName("hand_r"));
 	RightHandCollisionSphere->SetupAttachment(GetMesh(), FName("hand_r"));
+	RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	bIsPerformingMainAttack = false;
 }
@@ -52,9 +53,11 @@ void ABorisCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void ABorisCharacter::OnMainAttackSwingFinished()
 {
 	bIsPerformingMainAttack = false;
+	RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void ABorisCharacter::OnMainAttackSwingStarted()
 {
 	bIsPerformingMainAttack = true;
+	RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
