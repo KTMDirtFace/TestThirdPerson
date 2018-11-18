@@ -15,12 +15,6 @@ public:
 	// Sets default values for this actor's properties
 	ADestructableProjectile();
 
-	UPROPERTY(VisibleAnywhere, Category = "Collision")
-	class UBoxComponent *BoxCollision;
-
-	UPROPERTY(VisibleAnywhere, Category = "Mesh")
-	class UStaticMeshComponent *VisualMesh;
-
 	UPROPERTY(VisibleAnywhere, Category = "Particles")
 	class UParticleSystemComponent *DestructionParticle;
 
