@@ -17,6 +17,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Spawn)
 	class UClass *ActorClassToSpawn;
+	
+	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	int32 MaxActiveSpawns;
 
 	UPROPERTY(EditDefaultsOnly, Category = Spawn)
 	float MinTimeBetweenSpawns;
@@ -33,9 +36,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	UFUNCTION()
+	void OnSpawnedActorDestroyed(AActor *DestroyedActor);
+
 	void SetNewRandSpawnTime();
 	void UpdateSpawn(float DeltaTime);
 
+	TArray<TWeakObjectPtr<AActor>> ActiveSpawns;
 	float mRandSpawnTime;
 	float mTimeSinceLastSpawn;
 };

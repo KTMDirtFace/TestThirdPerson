@@ -8,6 +8,7 @@ ASpawnGenerator::ASpawnGenerator()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	MaxActiveSpawns = 3;
 	MinTimeBetweenSpawns = 0.5f;
 	MaxTimeBetweenSpawns = 3.0f;
 	mTimeSinceLastSpawn = 0.0f;
@@ -33,6 +34,9 @@ bool ASpawnGenerator::SpawnNew()
 		bSpawned = true;
 		mTimeSinceLastSpawn = 0.0f;
 		SetNewRandSpawnTime();
+
+		ActiveSpawns.Add(SpawnedActor);
+		SpawnedActor->OnDestroyed.AddDynamic(this, &ASpawnGenerator::OnSpawnedActorDestroyed);
 	}
 
 	return bSpawned;
@@ -46,6 +50,11 @@ void ASpawnGenerator::Tick(float DeltaTime)
 	UpdateSpawn(DeltaTime);
 }
 
+void ASpawnGenerator::OnSpawnedActorDestroyed(AActor *DestroyedActor)
+{
+	ActiveSpawns.Remove(DestroyedActor);
+}
+
 void ASpawnGenerator::SetNewRandSpawnTime()
 {
 	mRandSpawnTime = FMath::FRandRange(MinTimeBetweenSpawns, MaxTimeBetweenSpawns);
@@ -57,7 +66,10 @@ void ASpawnGenerator::UpdateSpawn(float DeltaTime)
 
 	if (mTimeSinceLastSpawn > mRandSpawnTime)
 	{
-		SpawnNew();
+		if (ActiveSpawns.Num() < MaxActiveSpawns)
+		{
+			SpawnNew();
+		}
 	}
 }
 
