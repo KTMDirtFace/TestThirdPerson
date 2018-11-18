@@ -15,6 +15,9 @@ public:
 	// Sets default values for this actor's properties
 	ADestructableProjectile();
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sounds")
+	class USoundBase *DestructionAudio;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Particles")
 	class UParticleSystem *DestructionParticle;
 

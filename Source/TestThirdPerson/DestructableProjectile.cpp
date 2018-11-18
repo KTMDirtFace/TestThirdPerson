@@ -35,4 +35,9 @@ void ADestructableProjectile::Destroyed()
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestructionParticle, GetActorTransform());
 	}
+
+	if (DestructionAudio)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DestructionAudio, GetActorLocation());
+	}
 }

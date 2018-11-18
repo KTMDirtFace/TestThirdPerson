@@ -4,6 +4,7 @@
 
 #include "DestructableProjectile.h"
 #include "Components/SphereComponent.h"
+#include "SpawnGenerator.h"
 
 AFistWeapon::AFistWeapon()
 {
@@ -19,6 +20,12 @@ void AFistWeapon::NotifyActorBeginOverlap(AActor* OtherActor)
 
 	if (OtherActor && OtherActor->IsA<ADestructableProjectile>())
 	{
+		ASpawnGenerator *OwnerAsGenerator = Cast<ASpawnGenerator>(OtherActor->GetOwner());
+		if (OwnerAsGenerator)
+		{
+			OwnerAsGenerator->OnSpawnedActorDestroyed(OtherActor);
+		}
+
 		OtherActor->Destroy();
 	}
 }

@@ -19,10 +19,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Attack)
 	class UAnimMontage *PrimaryAttack_A_Montage;
 
-	/** Collision sphere for the right hand */
-	UPROPERTY(VisibleAnywhere, Category = Attack, meta = (AllowPrivateAccess = "true"))
-	class USphereComponent *RightHandCollisionSphere;
-
 	UPROPERTY(EditDefaultsOnly, Category = FistWeapon)
 	class UClass *RightFistWeaponClass;
 protected:

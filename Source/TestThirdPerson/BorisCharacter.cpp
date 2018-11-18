@@ -11,11 +11,6 @@ ABorisCharacter::ABorisCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Create a collision sphere on his right hand
-	RightHandCollisionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("RightHandCollisionSphere"));
-	RightHandCollisionSphere->SetupAttachment(GetMesh(), FName("hand_r"));
-	RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
 	bIsPerformingMainAttack = false;
 }
 
@@ -30,6 +25,7 @@ void ABorisCharacter::BeginPlay()
 	if (BorisMesh && RightFistWeapon)
 	{
 		RightFistWeapon->AttachToComponent(BorisMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), FName("hand_r"));
+		RightFistWeapon->SetActorEnableCollision(false);
 	}
 }
 
@@ -58,11 +54,15 @@ void ABorisCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void ABorisCharacter::OnMainAttackSwingFinished()
 {
 	bIsPerformingMainAttack = false;
-	//RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	if (RightFistWeapon)
+		RightFistWeapon->SetActorEnableCollision(false);
 }
 
 void ABorisCharacter::OnMainAttackSwingStarted()
 {
 	bIsPerformingMainAttack = true;
-	//RightHandCollisionSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	
+	if(RightFistWeapon)
+		RightFistWeapon->SetActorEnableCollision(true);
 }

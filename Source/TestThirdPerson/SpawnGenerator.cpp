@@ -36,6 +36,7 @@ bool ASpawnGenerator::SpawnNew()
 		SetNewRandSpawnTime();
 
 		ActiveSpawns.Add(SpawnedActor);
+		SpawnedActor->SetOwner(this);
 		SpawnedActor->OnDestroyed.AddDynamic(this, &ASpawnGenerator::OnSpawnedActorDestroyed);
 	}
 
@@ -72,4 +73,3 @@ void ASpawnGenerator::UpdateSpawn(float DeltaTime)
 		}
 	}
 }
-
