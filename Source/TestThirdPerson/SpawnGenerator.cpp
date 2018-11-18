@@ -8,6 +8,9 @@ ASpawnGenerator::ASpawnGenerator()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	MinTimeBetweenSpawns = 0.5f;
+	MaxTimeBetweenSpawns = 3.0f;
+	mTimeSinceLastSpawn = 0.0f;
 }
 
 // Called when the game starts or when spawned
@@ -15,6 +18,24 @@ void ASpawnGenerator::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetNewRandSpawnTime();
+}
+
+bool ASpawnGenerator::SpawnNew()
+{
+	bool bSpawned = false;
+	
+	FTransform SpawnTransform = GetActorTransform();
+	AActor *SpawnedActor = GetWorld()->SpawnActor(ActorClassToSpawn, &SpawnTransform);
+
+	if (SpawnedActor != nullptr)
+	{
+		bSpawned = true;
+		mTimeSinceLastSpawn = 0.0f;
+		SetNewRandSpawnTime();
+	}
+
+	return bSpawned;
 }
 
 // Called every frame
@@ -22,5 +43,21 @@ void ASpawnGenerator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UpdateSpawn(DeltaTime);
+}
+
+void ASpawnGenerator::SetNewRandSpawnTime()
+{
+	mRandSpawnTime = FMath::FRandRange(MinTimeBetweenSpawns, MaxTimeBetweenSpawns);
+}
+
+void ASpawnGenerator::UpdateSpawn(float DeltaTime)
+{
+	mTimeSinceLastSpawn += DeltaTime;
+
+	if (mTimeSinceLastSpawn > mRandSpawnTime)
+	{
+		SpawnNew();
+	}
 }
 

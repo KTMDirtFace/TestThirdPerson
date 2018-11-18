@@ -15,17 +15,27 @@ public:
 	// Sets default values for this actor's properties
 	ASpawnGenerator();
 
-	class AActor *ActorToSpawn;
+	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	class UClass *ActorClassToSpawn;
 
+	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	float MinTimeBetweenSpawns;
 
+	UPROPERTY(EditDefaultsOnly, Category = Spawn)
+	float MaxTimeBetweenSpawns;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	bool SpawnNew();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	void SetNewRandSpawnTime();
+	void UpdateSpawn(float DeltaTime);
+
+	float mRandSpawnTime;
 	float mTimeSinceLastSpawn;
 };
