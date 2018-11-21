@@ -6,6 +6,8 @@
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 #include "UnrealNetwork.h"
 
+PRAGMA_DISABLE_OPTIMIZATION
+
 // Sets default values
 ABorisCharacter::ABorisCharacter()
 {
@@ -32,28 +34,41 @@ void ABorisCharacter::BeginPlay()
 
 void ABorisCharacter::StartAttacking()
 {
-	NotifyServerOfMainAttack(); 
-}
-
-void ABorisCharacter::PlayMainAttackMontage_Implementation()
-{
+	// Play animation swing locally
 	if (!bIsPerformingMainAttack)
 	{
 		PlayAnimMontage(PrimaryAttack_A_Montage);
 	}
+
+	// Notify the server to play the attack swing.
+	NotifyServerOfMainAttack(); 
 }
 
 void ABorisCharacter::NotifyServerOfMainAttack_Implementation()
 {
 	if (Role == ROLE_Authority)
 	{
-		PlayMainAttackMontage();
+		if (!bIsPerformingMainAttack)
+		{
+			PlayAnimMontage(PrimaryAttack_A_Montage);
+		}
 	}
 }
 
 bool ABorisCharacter::NotifyServerOfMainAttack_Validate()
 {
 	return true;
+}
+
+void ABorisCharacter::MainAttackChanged()
+{
+	if (!IsLocallyControlled())
+	{
+		if (bIsPerformingMainAttack)
+		{
+			PlayAnimMontage(PrimaryAttack_A_Montage);
+		}
+	}
 }
 
 // Called every frame
@@ -72,23 +87,32 @@ void ABorisCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ABorisCharacter::OnMainAttackSwingFinished()
 {
-	bIsPerformingMainAttack = false;
+	if (Role == ROLE_Authority)
+	{
+		bIsPerformingMainAttack = false;
 
-	if (RightFistWeapon)
-		RightFistWeapon->SetActorEnableCollision(false);
+		if (RightFistWeapon)
+			RightFistWeapon->SetActorEnableCollision(false);
+	}
 }
 
 void ABorisCharacter::OnMainAttackSwingStarted()
 {
-	bIsPerformingMainAttack = true;
-	
-	if(RightFistWeapon)
-		RightFistWeapon->SetActorEnableCollision(true);
+	if (Role == ROLE_Authority)
+	{
+		bIsPerformingMainAttack = true;
+
+		if (RightFistWeapon)
+			RightFistWeapon->SetActorEnableCollision(true);
+	}
 }
 
 void ABorisCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME_CONDITION(ABorisCharacter, bIsPerformingMainAttack, COND_SkipOwner);
+	DOREPLIFETIME(ABorisCharacter, bIsPerformingMainAttack);
+	//DOREPLIFETIME_CONDITION(ABorisCharacter, bIsPerformingMainAttack, COND_SkipOwner);
 }
+
+PRAGMA_ENABLE_OPTIMIZATION

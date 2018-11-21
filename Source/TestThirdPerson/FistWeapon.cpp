@@ -18,14 +18,18 @@ void AFistWeapon::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
-	if (OtherActor && OtherActor->IsA<ADestructableProjectile>())
+	// Only the server is allowed to determine if this weapon should destroy the object.
+	if (Role == ROLE_Authority)
 	{
-		ASpawnGenerator *OwnerAsGenerator = Cast<ASpawnGenerator>(OtherActor->GetOwner());
-		if (OwnerAsGenerator)
+		if (OtherActor && OtherActor->IsA<ADestructableProjectile>())
 		{
-			OwnerAsGenerator->OnSpawnedActorDestroyed(OtherActor);
-		}
+			ASpawnGenerator *OwnerAsGenerator = Cast<ASpawnGenerator>(OtherActor->GetOwner());
+			if (OwnerAsGenerator)
+			{
+				OwnerAsGenerator->OnSpawnedActorDestroyed(OtherActor);
+			}
 
-		OtherActor->Destroy();
+			OtherActor->Destroy();
+		}
 	}
 }
