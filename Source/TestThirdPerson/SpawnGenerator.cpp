@@ -26,18 +26,22 @@ bool ASpawnGenerator::SpawnNew()
 {
 	bool bSpawned = false;
 	
-	FTransform SpawnTransform = GetActorTransform();
-	AActor *SpawnedActor = GetWorld()->SpawnActor(ActorClassToSpawn, &SpawnTransform);
-
-	if (SpawnedActor != nullptr)
+	// Only spawn if we are the server.
+	if (Role == ROLE_Authority)
 	{
-		bSpawned = true;
-		mTimeSinceLastSpawn = 0.0f;
-		SetNewRandSpawnTime();
+		FTransform SpawnTransform = GetActorTransform();
+		AActor *SpawnedActor = GetWorld()->SpawnActor(ActorClassToSpawn, &SpawnTransform);
 
-		ActiveSpawns.Add(SpawnedActor);
-		SpawnedActor->SetOwner(this);
-		SpawnedActor->OnDestroyed.AddDynamic(this, &ASpawnGenerator::OnSpawnedActorDestroyed);
+		if (SpawnedActor != nullptr)
+		{
+			bSpawned = true;
+			mTimeSinceLastSpawn = 0.0f;
+			SetNewRandSpawnTime();
+
+			ActiveSpawns.Add(SpawnedActor);
+			SpawnedActor->SetOwner(this);
+			SpawnedActor->OnDestroyed.AddDynamic(this, &ASpawnGenerator::OnSpawnedActorDestroyed);
+		}
 	}
 
 	return bSpawned;
@@ -63,13 +67,17 @@ void ASpawnGenerator::SetNewRandSpawnTime()
 
 void ASpawnGenerator::UpdateSpawn(float DeltaTime)
 {
-	mTimeSinceLastSpawn += DeltaTime;
-
-	if (mTimeSinceLastSpawn > mRandSpawnTime)
+	// Only perform updates on the server
+	if (Role == ROLE_Authority)
 	{
-		if (ActiveSpawns.Num() < MaxActiveSpawns)
+		mTimeSinceLastSpawn += DeltaTime;
+
+		if (mTimeSinceLastSpawn > mRandSpawnTime)
 		{
-			SpawnNew();
+			if (ActiveSpawns.Num() < MaxActiveSpawns)
+			{
+				SpawnNew();
+			}
 		}
 	}
 }

@@ -27,6 +27,14 @@ protected:
 
 	virtual void StartAttacking() override;
 
+	// Called from server replicated back to all clients.  I'm not sure I like this the local client wont perform an instantainus swing.
+	UFUNCTION(NetMulticast, Reliable)
+	void PlayMainAttackMontage();
+
+	// Called locally on client, executed on the server.
+	UFUNCTION(Server, reliable, WithValidation)
+	void NotifyServerOfMainAttack();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -45,5 +53,6 @@ public:
 private:
 	class AFistWeapon *RightFistWeapon;
 
+	UPROPERTY(Replicated)
 	bool bIsPerformingMainAttack;
 };

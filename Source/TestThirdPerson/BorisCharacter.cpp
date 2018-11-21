@@ -4,6 +4,7 @@
 
 #include "FistWeapon.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
+#include "UnrealNetwork.h"
 
 // Sets default values
 ABorisCharacter::ABorisCharacter()
@@ -31,10 +32,28 @@ void ABorisCharacter::BeginPlay()
 
 void ABorisCharacter::StartAttacking()
 {
+	NotifyServerOfMainAttack(); 
+}
+
+void ABorisCharacter::PlayMainAttackMontage_Implementation()
+{
 	if (!bIsPerformingMainAttack)
 	{
 		PlayAnimMontage(PrimaryAttack_A_Montage);
 	}
+}
+
+void ABorisCharacter::NotifyServerOfMainAttack_Implementation()
+{
+	if (Role == ROLE_Authority)
+	{
+		PlayMainAttackMontage();
+	}
+}
+
+bool ABorisCharacter::NotifyServerOfMainAttack_Validate()
+{
+	return true;
 }
 
 // Called every frame
@@ -65,4 +84,11 @@ void ABorisCharacter::OnMainAttackSwingStarted()
 	
 	if(RightFistWeapon)
 		RightFistWeapon->SetActorEnableCollision(true);
+}
+
+void ABorisCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION(ABorisCharacter, bIsPerformingMainAttack, COND_SkipOwner);
 }

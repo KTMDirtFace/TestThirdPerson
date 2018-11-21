@@ -11,6 +11,10 @@ ADestructableProjectile::ADestructableProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Set this actor to replicate
+	SetReplicates(true);
+	SetReplicateMovement(true);
+
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 
 }
