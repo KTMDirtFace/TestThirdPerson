@@ -35,13 +35,17 @@ void ADestructableProjectile::Tick(float DeltaTime)
 
 void ADestructableProjectile::Destroyed()
 {
-	if (DestructionParticle)
+	// Don't need to spawn the particles or sound on a dedicated server.
+	if (!IsRunningDedicatedServer())
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestructionParticle, GetActorTransform());
-	}
+		if (DestructionParticle)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), DestructionParticle, GetActorTransform());
+		}
 
-	if (DestructionAudio)
-	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), DestructionAudio, GetActorLocation());
+		if (DestructionAudio)
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), DestructionAudio, GetActorLocation());
+		}
 	}
 }

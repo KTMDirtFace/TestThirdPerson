@@ -6,7 +6,6 @@
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 #include "UnrealNetwork.h"
 
-PRAGMA_DISABLE_OPTIMIZATION
 
 // Sets default values
 ABorisCharacter::ABorisCharacter()
@@ -114,5 +113,3 @@ void ABorisCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & O
 	DOREPLIFETIME(ABorisCharacter, bIsPerformingMainAttack);
 	//DOREPLIFETIME_CONDITION(ABorisCharacter, bIsPerformingMainAttack, COND_SkipOwner);
 }
-
-PRAGMA_ENABLE_OPTIMIZATION
