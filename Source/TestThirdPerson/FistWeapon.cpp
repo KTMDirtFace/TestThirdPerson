@@ -2,9 +2,12 @@
 
 #include "FistWeapon.h"
 
+#include "BorisCharacter.h"
 #include "DestructableProjectile.h"
 #include "Components/SphereComponent.h"
 #include "SpawnGenerator.h"
+
+PRAGMA_DISABLE_OPTIMIZATION
 
 AFistWeapon::AFistWeapon()
 {
@@ -27,9 +30,18 @@ void AFistWeapon::NotifyActorBeginOverlap(AActor* OtherActor)
 			if (OwnerAsGenerator)
 			{
 				OwnerAsGenerator->OnSpawnedActorDestroyed(OtherActor);
+
+				// Temp testing
+				ABorisCharacter *BorisChar = Cast<ABorisCharacter>(GetOwner());
+				if (BorisChar)
+				{
+					BorisChar->TestScore++;
+				}
 			}
 
 			OtherActor->Destroy();
 		}
 	}
 }
+
+PRAGMA_ENABLE_OPTIMIZATION

@@ -21,6 +21,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = FistWeapon)
 	class UClass *RightFistWeaponClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TestScore; // Temp
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

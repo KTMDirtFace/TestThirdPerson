@@ -26,6 +26,7 @@ void ABorisCharacter::BeginPlay()
 	USkeletalMeshComponent *BorisMesh = GetMesh();
 	if (BorisMesh && RightFistWeapon)
 	{
+		RightFistWeapon->SetOwner(this);
 		RightFistWeapon->AttachToComponent(BorisMesh, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), FName("hand_r"));
 		RightFistWeapon->SetActorEnableCollision(false);
 	}
