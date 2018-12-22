@@ -6,6 +6,7 @@
 #include "DestructableProjectile.h"
 #include "Components/SphereComponent.h"
 #include "SpawnGenerator.h"
+#include "TestThirdPersonGameMode.h"
 
 PRAGMA_DISABLE_OPTIMIZATION
 
@@ -36,6 +37,12 @@ void AFistWeapon::NotifyActorBeginOverlap(AActor* OtherActor)
 				if (BorisChar)
 				{
 					BorisChar->TestScore++;
+
+					ATestThirdPersonGameMode* const GameMode = Cast<ATestThirdPersonGameMode>(GetWorld()->GetAuthGameMode());
+					if (GameMode)
+					{
+						GameMode->IncreaseScore(BorisChar);
+					}
 				}
 			}
 

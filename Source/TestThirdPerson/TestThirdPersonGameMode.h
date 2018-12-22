@@ -13,6 +13,8 @@ class ATestThirdPersonGameMode : public AGameModeBase
 
 public:
 	ATestThirdPersonGameMode();
+
+	void IncreaseScore(APawn *PlayerPawn);
 };
 
 

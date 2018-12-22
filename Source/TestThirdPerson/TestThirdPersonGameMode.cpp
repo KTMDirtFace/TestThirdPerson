@@ -3,6 +3,7 @@
 #include "TestThirdPersonGameMode.h"
 #include "TestThirdPersonCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "GameFramework/PlayerState.h"
 
 ATestThirdPersonGameMode::ATestThirdPersonGameMode()
 {
@@ -14,4 +15,20 @@ ATestThirdPersonGameMode::ATestThirdPersonGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 */
+}
+
+void ATestThirdPersonGameMode::IncreaseScore(APawn *PlayerPawn)
+{
+	// Only the server is allowed to change the score.
+	if (Role == ROLE_Authority)
+	{
+		if (PlayerPawn)
+		{
+			APlayerState *PlayerState = PlayerPawn->GetPlayerState();
+			if (PlayerState)
+			{
+				PlayerState->Score += 1;
+			}
+		}
+	}
 }
