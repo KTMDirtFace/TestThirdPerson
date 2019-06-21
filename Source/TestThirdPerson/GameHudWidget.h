@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "PlayerScoreData.h"
 #include "GameHudWidget.generated.h"
 
 /**
@@ -14,4 +15,11 @@ class TESTTHIRDPERSON_API UGameHudWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
+private:
+	void UpdatePlayerScoreData();
+
+	TArray<FPlayerScoreData> PlayerScoreDataList;
 };

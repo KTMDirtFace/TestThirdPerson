@@ -3,30 +3,23 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+//#include "UObject/NoExportTypes.h"
 #include "PlayerScoreData.generated.h"
 
 /**
  * 
  */
-UCLASS()
-class TESTTHIRDPERSON_API UPlayerScoreData : public UObject
+//UCLASS()
+//class TESTTHIRDPERSON_API UPlayerScoreData : public UObject
+USTRUCT(BlueprintType)
+struct FPlayerScoreData
 {
 	GENERATED_BODY()
 
-public:
-	UPlayerScoreData();
-
-	UFUNCTION(BlueprintCallable, Category = "Player Score Data")
-	void SetPlayerName(const FString &Name);
-	UFUNCTION(BlueprintCallable, Category = "Player Score Data")
-	void SetPlayerScore(int32 score);
-
-	UFUNCTION(BlueprintCallable, Category = "Player Score Data")
-	FString &GetPlayerName();
-	UFUNCTION(BlueprintCallable, Category = "Player Score Data")
-	int32 GetPlayerScore();
-private:
+	FPlayerScoreData();
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString PlayerName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32	PlayerScore;
 };

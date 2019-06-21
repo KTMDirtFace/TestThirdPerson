@@ -21,7 +21,9 @@ public:
 
 public:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 private:
-	class UUserWidget *GameHUDWidget;
+
+	class UGameHudWidget *GameHUDWidget;
 };

@@ -14,3 +14,9 @@ void AGameHud::BeginPlay()
 		GameHUDWidget->AddToViewport();
 	}
 }
+
+void AGameHud::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+}
