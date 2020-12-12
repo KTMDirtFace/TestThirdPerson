@@ -23,7 +23,7 @@ void AFistWeapon::NotifyActorBeginOverlap(AActor* OtherActor)
 	Super::NotifyActorBeginOverlap(OtherActor);
 
 	// Only the server is allowed to determine if this weapon should destroy the object.
-	if (Role == ROLE_Authority)
+	if (GetLocalRole() == ROLE_Authority)
 	{
 		if (OtherActor && OtherActor->IsA<ADestructableProjectile>())
 		{

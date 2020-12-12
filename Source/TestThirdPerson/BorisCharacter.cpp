@@ -46,7 +46,7 @@ void ABorisCharacter::StartAttacking()
 
 void ABorisCharacter::NotifyServerOfMainAttack_Implementation()
 {
-	if (Role == ROLE_Authority)
+	if (GetLocalRole() == ROLE_Authority)
 	{
 		if (!bIsPerformingMainAttack)
 		{
@@ -88,7 +88,7 @@ void ABorisCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ABorisCharacter::OnMainAttackSwingFinished()
 {
-	if (Role == ROLE_Authority)
+	if (GetLocalRole() == ROLE_Authority)
 	{
 		bIsPerformingMainAttack = false;
 
@@ -99,7 +99,7 @@ void ABorisCharacter::OnMainAttackSwingFinished()
 
 void ABorisCharacter::OnMainAttackSwingStarted()
 {
-	if (Role == ROLE_Authority)
+	if (GetLocalRole() == ROLE_Authority)
 	{
 		bIsPerformingMainAttack = true;
 

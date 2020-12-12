@@ -20,7 +20,7 @@ ATestThirdPersonGameMode::ATestThirdPersonGameMode()
 void ATestThirdPersonGameMode::IncreaseScore(APawn *PlayerPawn)
 {
 	// Only the server is allowed to change the score.
-	if (Role == ROLE_Authority)
+	if (GetLocalRole() == ROLE_Authority)
 	{
 		if (PlayerPawn)
 		{

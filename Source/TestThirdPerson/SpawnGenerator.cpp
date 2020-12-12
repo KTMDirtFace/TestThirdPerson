@@ -27,7 +27,7 @@ bool ASpawnGenerator::SpawnNew()
 	bool bSpawned = false;
 	
 	// Only spawn if we are the server.
-	if (Role == ROLE_Authority)
+	if (GetLocalRole() == ROLE_Authority)
 	{
 		FTransform SpawnTransform = GetActorTransform();
 		AActor *SpawnedActor = GetWorld()->SpawnActor(ActorClassToSpawn, &SpawnTransform);
@@ -68,7 +68,7 @@ void ASpawnGenerator::SetNewRandSpawnTime()
 void ASpawnGenerator::UpdateSpawn(float DeltaTime)
 {
 	// Only perform updates on the server
-	if (Role == ROLE_Authority)
+	if (GetLocalRole() == ROLE_Authority)
 	{
 		mTimeSinceLastSpawn += DeltaTime;
 
